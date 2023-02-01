@@ -3,6 +3,12 @@
 
 # Laravel Route Debug
 
+![Packagist Version](https://img.shields.io/packagist/v/lukasss93/laravel-route-debug)
+![Packagist License](https://img.shields.io/packagist/l/lukasss93/laravel-route-debug)
+![Packagist PHP Version](https://img.shields.io/packagist/dependency-v/lukasss93/laravel-route-debug/php?label=PHP&logo=php)
+![Packagist Dependency Version](https://img.shields.io/packagist/dependency-v/lukasss93/laravel-route-debug/illuminate/support?color=orange&label=Laravel&logo=laravel)
+[![run-tests](https://github.com/Lukasss93/laravel-route-debug/actions/workflows/run-tests.yml/badge.svg)](https://github.com/Lukasss93/laravel-route-debug/actions/workflows/run-tests.yml)
+
 > A simple package that prints the current route name and action in the Response Headers.
 
 ## 🚀 Installation
