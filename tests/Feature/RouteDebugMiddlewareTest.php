@@ -17,10 +17,24 @@ it('returns debug headers', function ($actionValue, $actionExpected) {
 
     // execute the middleware
     $middleware = new RouteDebugMiddleware();
-    $response = $middleware->handle($request, fn($req) => response('ok'));
+    $response = $middleware->handle($request, fn ($req) => response('ok'));
 
     // check the response headers
     expect($response->headers)
         ->get('Laravel-Route-Name')->toBe('testing')
         ->get('Laravel-Route-Action')->toBe($actionExpected);
 })->with('callables');
+
+it('returns unknown debug headers', function () {
+    // simulate a request to a dummy route
+    $request = new Request();
+
+    // execute the middleware
+    $middleware = new RouteDebugMiddleware();
+    $response = $middleware->handle($request, fn ($req) => response('ok'));
+
+    // check the response headers
+    expect($response->headers)
+        ->get('Laravel-Route-Name')->toBe('[Route name not set]')
+        ->get('Laravel-Route-Action')->toBe('[Route action not set]');
+});

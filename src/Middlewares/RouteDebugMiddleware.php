@@ -4,11 +4,12 @@ namespace Lukasss93\Laravel\RouteDebug\Middlewares;
 
 use Closure;
 use Illuminate\Http\Request;
+use Illuminate\Routing\Route;
 use Symfony\Component\HttpFoundation\BinaryFileResponse;
 
 class RouteDebugMiddleware
 {
-    public function handle(Request $request, Closure $next): mixed
+    public function handle(Request $request, Closure $next)
     {
         $response = $next($request);
 
@@ -27,22 +28,30 @@ class RouteDebugMiddleware
 
     protected function getRouteName(Request $request): string
     {
-        return $request->route()?->getName() ?: '[Route name not set]';
+        if (!($request->route() instanceof Route)) {
+            return '[Route name not set]';
+        }
+
+        return $request->route()->getName() ?: '[Route name not set]';
     }
 
     protected function getRouteAction(Request $request): string
     {
-        $actionValueIsClosure = $request->route()?->getAction('uses') instanceof Closure;
-        $actionNameIsClosure = $request->route()?->getActionName() === 'Closure';
+        if (!($request->route() instanceof Route)) {
+            return '[Route action not set]';
+        }
 
-        if($actionNameIsClosure) {
+        $actionValueIsClosure = $request->route()->getAction('uses') instanceof Closure;
+        $actionNameIsClosure = $request->route()->getActionName() === 'Closure';
+
+        if ($actionNameIsClosure) {
             if ($actionValueIsClosure) {
                 return 'Closure';
             }
 
-            return $request->route()?->getAction('uses') .'::__invoke';
+            return $request->route()->getAction('uses').'::__invoke';
         }
 
-        return str_replace('@','::', $request->route()?->getActionName()) ?: '[Route action not set]';
+        return str_replace('@', '::', $request->route()->getActionName()) ?: '[Route action not set]';
     }
 }
