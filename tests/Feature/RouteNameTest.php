@@ -4,13 +4,11 @@ use Illuminate\Http\Request;
 use Illuminate\Routing\Route;
 use Lukasss93\Laravel\RouteDebug\Middlewares\RouteDebugMiddleware;
 
-it('returns debug headers', function ($actionValue, $actionExpected) {
-    $actionValue = $actionValue[0];
-
+it('returns debug header', function () {
     // simulate a request to a dummy route
     $request = new Request();
-    $request->setRouteResolver(function () use ($actionValue, $request) {
-        return (new Route('GET', 'testing/{info}', $actionValue))
+    $request->setRouteResolver(function () use ($request) {
+        return (new Route('GET', 'testing/{info}', fn (Request $request) => response('ok')))
             ->name('testing')
             ->bind($request);
     });
@@ -20,12 +18,10 @@ it('returns debug headers', function ($actionValue, $actionExpected) {
     $response = $middleware->handle($request, fn ($req) => response('ok'));
 
     // check the response headers
-    expect($response->headers)
-        ->get('Laravel-Route-Name')->toBe('testing')
-        ->get('Laravel-Route-Action')->toBe($actionExpected);
-})->with('callables');
+    expect($response->headers->get('Laravel-Route-Name'))->toBe('testing');
+});
 
-it('returns unknown debug headers', function () {
+it('returns unknown debug header', function () {
     // simulate a request to a dummy route
     $request = new Request();
 
@@ -34,7 +30,5 @@ it('returns unknown debug headers', function () {
     $response = $middleware->handle($request, fn ($req) => response('ok'));
 
     // check the response headers
-    expect($response->headers)
-        ->get('Laravel-Route-Name')->toBe('[Route name not set]')
-        ->get('Laravel-Route-Action')->toBe('[Route action not set]');
+    expect($response->headers->get('Laravel-Route-Name'))->toBe('-');
 });

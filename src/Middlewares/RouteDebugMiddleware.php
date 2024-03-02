@@ -4,8 +4,10 @@ namespace Lukasss93\Laravel\RouteDebug\Middlewares;
 
 use Closure;
 use Illuminate\Http\Request;
-use Illuminate\Routing\Route;
+use InvalidArgumentException;
+use Lukasss93\Laravel\RouteDebug\Contracts\RouteDebugInterface;
 use Symfony\Component\HttpFoundation\BinaryFileResponse;
+use Throwable;
 
 class RouteDebugMiddleware
 {
@@ -18,40 +20,21 @@ class RouteDebugMiddleware
             return $response;
         }
 
-        try {
-            $response->header('Laravel-Route-Name', $this->getRouteName($request));
-            $response->header('Laravel-Route-Action', $this->getRouteAction($request));
-        } finally {
-            return $response;
-        }
-    }
+        // apply debug headers
+        $debuggers = config('route-debug.debuggers');
 
-    protected function getRouteName(Request $request): string
-    {
-        if (!($request->route() instanceof Route)) {
-            return '[Route name not set]';
-        }
+        foreach ($debuggers as $header => $debugger) {
+            try {
+                if (!is_subclass_of($debugger, RouteDebugInterface::class)) {
+                    throw new InvalidArgumentException('Debugger must implement RouteDebugInterface');
+                }
 
-        return $request->route()->getName() ?: '[Route name not set]';
-    }
-
-    protected function getRouteAction(Request $request): string
-    {
-        if (!($request->route() instanceof Route)) {
-            return '[Route action not set]';
-        }
-
-        $actionValueIsClosure = $request->route()->getAction('uses') instanceof Closure;
-        $actionNameIsClosure = $request->route()->getActionName() === 'Closure';
-
-        if ($actionNameIsClosure) {
-            if ($actionValueIsClosure) {
-                return 'Closure';
+                $response->header($header, call_user_func([new $debugger, 'handle'], $request));
+            } catch (Throwable $e) {
+                $response->header($header, $e->getMessage());
             }
-
-            return $request->route()->getAction('uses').'::__invoke';
         }
 
-        return str_replace('@', '::', $request->route()->getActionName()) ?: '[Route action not set]';
+        return $response;
     }
 }
