@@ -15,8 +15,8 @@ class RouteDebugMiddleware
     {
         $response = $next($request);
 
-        // skip binary responses
-        if ($response instanceof BinaryFileResponse) {
+        // skip responses without header method
+        if (!method_exists($response, 'header')) {
             return $response;
         }
 
