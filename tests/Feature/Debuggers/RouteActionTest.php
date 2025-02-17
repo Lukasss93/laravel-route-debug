@@ -3,6 +3,8 @@
 use Illuminate\Http\Request;
 use Illuminate\Routing\Route;
 use Lukasss93\Laravel\RouteDebug\Middlewares\RouteDebugMiddleware;
+use Lukasss93\Laravel\RouteDebug\Tests\Fixtures\CommonController;
+use Lukasss93\Laravel\RouteDebug\Tests\Fixtures\InvokableController;
 
 it('returns debug header', function ($actionValue, $actionExpected) {
     // simulate a request to a dummy route
@@ -17,7 +19,11 @@ it('returns debug header', function ($actionValue, $actionExpected) {
 
     // check the response headers
     expect($response->headers->get('Laravel-Route-Action'))->toBe($actionExpected);
-})->with('callables');
+})->with([
+    'closure' => [[fn (Request $request) => response('ok')], 'Closure'],
+    'invokable' => [[InvokableController::class], InvokableController::class.'::__invoke'],
+    'array' => [[[CommonController::class, 'index']], CommonController::class.'::index'],
+]);
 
 it('returns unknown debug header', function () {
     // simulate a request to a dummy route
