@@ -1,8 +1,8 @@
 <?php
 
 use Illuminate\Http\Request;
-use Lukasss93\Laravel\RouteDebug\Tests\Controllers\CommonController;
-use Lukasss93\Laravel\RouteDebug\Tests\Controllers\InvokableController;
+use Lukasss93\Laravel\RouteDebug\Tests\Fixtures\CommonController;
+use Lukasss93\Laravel\RouteDebug\Tests\Fixtures\InvokableController;
 
 dataset('callables', [
     'closure' => [

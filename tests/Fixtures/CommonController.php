@@ -1,6 +1,6 @@
 <?php
 
-namespace Lukasss93\Laravel\RouteDebug\Tests\Controllers;
+namespace Lukasss93\Laravel\RouteDebug\Tests\Fixtures;
 
 use Illuminate\Http\Request;
 use Illuminate\Routing\Controller;
