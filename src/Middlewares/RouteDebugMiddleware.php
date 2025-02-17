@@ -6,7 +6,6 @@ use Closure;
 use Illuminate\Http\Request;
 use InvalidArgumentException;
 use Lukasss93\Laravel\RouteDebug\Contracts\RouteDebugInterface;
-use Symfony\Component\HttpFoundation\BinaryFileResponse;
 use Throwable;
 
 class RouteDebugMiddleware
@@ -15,26 +14,46 @@ class RouteDebugMiddleware
     {
         $response = $next($request);
 
-        // skip responses without header method
-        if (!method_exists($response, 'header')) {
+        if (!$this->canSendHeaders($response)) {
             return $response;
         }
 
-        // apply debug headers
-        $debuggers = config('route-debug.debuggers');
-
-        foreach ($debuggers as $header => $debugger) {
+        foreach (config('route-debug.debuggers') as $header => $debugger) {
             try {
                 if (!is_subclass_of($debugger, RouteDebugInterface::class)) {
                     throw new InvalidArgumentException('Debugger must implement RouteDebugInterface');
                 }
 
-                $response->header($header, call_user_func([new $debugger, 'handle'], $request));
+                $this->setHeader($response, $header, call_user_func([new $debugger, 'handle'], $request));
             } catch (Throwable $e) {
-                $response->header($header, $e->getMessage());
+                $this->setHeader($response, $header, $e->getMessage());
             }
         }
 
         return $response;
+    }
+
+    protected function canSendHeaders($response): bool
+    {
+        if (method_exists($response, 'header')) {
+            return true;
+        }
+
+        if (property_exists($response, 'headers') && method_exists($response->headers, 'set')) {
+            return true;
+        }
+
+        return false;
+    }
+
+    protected function setHeader($response, string $name, string $value): void
+    {
+        if (method_exists($response, 'header')) {
+            $response->header($name, $value);
+        }
+
+        if (property_exists($response, 'headers') && method_exists($response->headers, 'set')) {
+            $response->headers->set($name, $value);
+        }
     }
 }
