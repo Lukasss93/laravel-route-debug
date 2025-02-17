@@ -10,6 +10,7 @@ return [
         'Laravel-Route-Name' => Debuggers\RouteName::class,
         'Laravel-Route-Action' => Debuggers\RouteAction::class,
         'Laravel-Route-Can' => Debuggers\RouteCan::class,
+        'Laravel-Route-FormRequest' => Debuggers\RouteFormRequest::class,
     ],
 
 ];
