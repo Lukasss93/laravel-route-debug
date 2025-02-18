@@ -36,21 +36,32 @@ Publishing the config file is optional:
 php artisan vendor:publish --provider="Lukasss93\Laravel\RouteDebug\RouteDebugServiceProvider" --tag="route-debug-config"
 ```
 
-Config content:
-
-```php
-return [
-    'enabled' => env('APP_DEBUG', false),
-];
-```
-
 ## 👓 Usage
 Enable the package turning on the `APP_DEBUG` environment variable or by setting the `enabled` config option to `true`.
 
-Then, when you visit a page, you will see the route name and action in the response headers.
+Then, when you visit a page, you will see the route debuggers in the response headers.
+
+### Route Debuggers
+
+The package will add the following headers to the response:
+
+- `Laravel-Route-Name`: The name of the current route.
+- `Laravel-Route-Action`: The action of the current route.
+- `Laravel-Route-Can`: The value of the `can` middleware of the current route.
+- `Laravel-Route-FormRequest`: The FormRequest class of the current route action.
+
+You can disable any of these headers by commenting out the corresponding line in the `config/route-debug.php` file.
+
+### Custom Route Debugger
+
+You can create a custom route debugger to add your own headers to the response.
+
+1. Create a new class that implements the `Lukasss93\Laravel\RouteDebug\Contracts\RouteDebugger` interface.
+2. Add your custom logic to the `handle` method.
+3. Register your custom route debugger in the `config/route-debug.php` file under the `debuggers` key.
 
 ### Screenshot
-![preview](https://i.imgur.com/78vaDXi.png)
+![preview](https://i.imgur.com/0VzNaKV.png)
 
 
 ## ⚗️ Testing
@@ -61,15 +72,17 @@ composer test
 
 ## 🔰 Version Support
 
-| Package | L8.x | L9.x | L10.x | L11.x |
-|:-------:|:----:|:----:|:-----:|-------|
-|  ^1.0   |  ✅   |  ✅   |   ✅   | ❌     |
-|  ^2.0   |  ❌   |  ❌   |   ✅   | ✅     |
+| Package | L8.x | L9.x | L10.x | L11.x | L12.x |
+|:-------:|:----:|:----:|:-----:|:-----:|:-----:|
+|  ^1.0   |  ✅   |  ✅   |   ✅   |   ❌   |   ❌   |
+|  ^2.0   |  ❌   |  ❌   |   ✅   |   ✅   |   ❌   |
+|  ^3.0   |  ❌   |  ❌   |   ❌   |   ✅   |   ✅   |
 
 | Package | PHP 7.4 | PHP 8.0 | PHP 8.1 | PHP 8.2 | PHP 8.3 | PHP 8.4 |
 |:-------:|:-------:|:-------:|:-------:|:-------:|:-------:|:-------:|
 |  ^1.0   |    ✅    |    ✅    |    ✅    |    ✅    |    ✅    |    ✅    |
 |  ^2.0   |    ❌    |    ❌    |    ✅    |    ✅    |    ✅    |    ✅    |
+|  ^3.0   |    ❌    |    ❌    |    ❌    |    ✅    |    ✅    |    ✅    |
 
 
 ## 📃 Changelog
