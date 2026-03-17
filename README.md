@@ -3,10 +3,10 @@
 
 # Laravel Route Debug
 
-![Packagist Version](https://img.shields.io/packagist/v/lukasss93/laravel-route-debug)
-![Packagist License](https://img.shields.io/packagist/l/lukasss93/laravel-route-debug)
-![Packagist PHP Version](https://img.shields.io/packagist/dependency-v/lukasss93/laravel-route-debug/php?label=PHP&logo=php)
-![Packagist Dependency Version](https://img.shields.io/packagist/dependency-v/lukasss93/laravel-route-debug/illuminate/support?color=orange&label=Laravel&logo=laravel)
+![Packagist](https://img.shields.io/packagist/v/lukasss93/laravel-route-debug)
+![License](https://img.shields.io/packagist/l/lukasss93/laravel-route-debug)
+![PHP](https://img.shields.io/packagist/dependency-v/lukasss93/laravel-route-debug/php?label=PHP&logo=php)
+![Laravel](https://img.shields.io/packagist/dependency-v/lukasss93/laravel-route-debug/illuminate/support?color=orange&label=Laravel&logo=laravel)
 [![run-tests](https://github.com/Lukasss93/laravel-route-debug/actions/workflows/run-tests.yml/badge.svg)](https://github.com/Lukasss93/laravel-route-debug/actions/workflows/run-tests.yml)
 
 > A simple package that prints the current route name and action in the Response Headers.
@@ -72,17 +72,17 @@ composer test
 
 ## 🔰 Version Support
 
-| Package | L8.x | L9.x | L10.x | L11.x | L12.x |
-|:-------:|:----:|:----:|:-----:|:-----:|:-----:|
-|  ^1.0   |  ✅   |  ✅   |   ✅   |   ❌   |   ❌   |
-|  ^2.0   |  ❌   |  ❌   |   ✅   |   ✅   |   ❌   |
-|  ^3.0   |  ❌   |  ❌   |   ❌   |   ✅   |   ✅   |
+| Package | L8.x | L9.x | L10.x | L11.x | L12.x | L13.x |
+|:-------:|:----:|:----:|:-----:|:-----:|:-----:|:-----:|
+|  ^1.0   |  ✅   |  ✅   |   ✅   |   ❌   |   ❌   |   ❌   |
+|  ^2.0   |  ❌   |  ❌   |   ✅   |   ✅   |   ❌   |   ❌   |
+|  ^3.0   |  ❌   |  ❌   |   ❌   |   ✅   |   ✅   |   ✅   |
 
-| Package | PHP 7.4 | PHP 8.0 | PHP 8.1 | PHP 8.2 | PHP 8.3 | PHP 8.4 |
-|:-------:|:-------:|:-------:|:-------:|:-------:|:-------:|:-------:|
-|  ^1.0   |    ✅    |    ✅    |    ✅    |    ✅    |    ✅    |    ✅    |
-|  ^2.0   |    ❌    |    ❌    |    ✅    |    ✅    |    ✅    |    ✅    |
-|  ^3.0   |    ❌    |    ❌    |    ❌    |    ✅    |    ✅    |    ✅    |
+| Package | PHP 7.4 | PHP 8.0 | PHP 8.1 | PHP 8.2 | PHP 8.3 | PHP 8.4 | PHP 8.5 |
+|:-------:|:-------:|:-------:|:-------:|:-------:|:-------:|:-------:|:-------:|
+|  ^1.0   |    ✅    |    ✅    |    ✅    |    ✅    |    ✅    |    ✅    |    ✅    |
+|  ^2.0   |    ❌    |    ❌    |    ✅    |    ✅    |    ✅    |    ✅    |    ✅    |
+|  ^3.0   |    ❌    |    ❌    |    ❌    |    ✅    |    ✅    |    ✅    |    ✅    |
 
 
 ## 📃 Changelog
